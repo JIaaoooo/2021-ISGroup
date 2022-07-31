@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NettyWebSocket.Mapper.UserControlMapper">
+    <insert id="save" parameterType="NettyWebSocket.pojo.Hardware">
+        insert into `${table}` (name,current,voltage,power,date,index_num,power_factor,frequency,cumulative_power)
+        values (#{name},#{current},#{voltage},#{power},#{date},#{index_num},#{power_factor},#{frequency},#{cumulative_power})
+    </insert>
+
+    <update id="createTable" parameterType="String">
+
+        CREATE TABLE IF NOT EXISTS `${table}`(
+                                        `id` int AUTO_INCREMENT PRIMARY KEY,
+                                      `name` VARCHAR(100) NOT NULL ,
+                                      `current` double NOT NULL,
+                                      `voltage` double NOT NULL,
+                                      `power` double NOT NULL,
+                                      `date` int NOT NULL,
+                                      `index_num` varchar(10) NOT NULL,
+                                      `power_factor` double NOT NULL,
+                                      `frequency` double NOT NULL,
+                                      `cumulative_power` double NOT NULL
+        );
+    </update>
+
+    <select id="monitor" resultType="Map" parameterType="Map">
+        select id , current , voltage ,power from ${table} where index_num = #{index_num} and #{date} > date order by date desc limit 0,1
+    </select>
+
+
+    <select id="getPower" parameterType="String" resultType="Double">
+        select cumulative_power from `${table}` where id = #{id}
+    </select>
+
+    <select id="getMaxMessage" parameterType="String" resultType="Map">
+       SELECT MAX(current) current  , MAX(voltage) voltage , MAX(POWER) power FROM (SELECT current ,voltage,POWER FROM ${table} WHERE index_num = #{index_num} AND #{time} > DATE and name = #{name}) newtable
+    </select>
+
+    <select id="getName" parameterType="String" resultType="String">
+            select distinct  name ,id   from ${table} where index_num = #{index_num}  order by id desc limit 0 ,1
+    </select>
+
+
+
+<!--
+    <update id="update" parameterType="String">
+        update  ${table} set name = ${name} where name = oldName;
+    </update>-->
+</mapper>
