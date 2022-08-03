@@ -34,33 +34,6 @@ import java.util.Map;
 public class DataController {
 
 
-    @Autowired
-    Hardware hardware;
-
-    @Autowired
-    UserControlMapper userControlMapper;
-
-
-    @Autowired
-    UserSignMapper userSignMapper;
-
-    @Autowired
-    RestTemplate restTemplate;
-
-
-    private Hardware json ;
-
-
-
-
-    @GetMapping
-    public String DataBack(String str){
-        String url = "http://qgailab.com/getdata/{str}";
-        //String str = "{\"name\":\"PRINTER\",\"current\":0.03233,\"voltage\":220.20500,\"power\":3.13005,\"index_num\":1,\"power_factor\":0.44042,\"frequency\":50,\"cumulative_power\":36.12300}";
-        log.debug(str);
-        String template = restTemplate.getForObject(url, String.class,str);
-        return template;
-    }
 
 
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="NettyWebSocket.Mapper.UserSignMapper">
+    <insert id="add" parameterType="User">
+        insert into user (phone,password,name) values (#{phone},#{password},#{name})
+    </insert>
+
+    <delete id="del" parameterType="String">
+        delete from user where phone = #{phone}
+    </delete>
+
+    <select id="select" parameterType="String" resultType="User">
+        select * from user where phone =#{phone}
+    </select>
+</mapper>
